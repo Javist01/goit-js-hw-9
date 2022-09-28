@@ -4,18 +4,18 @@ const refs = {
   form: document.querySelector('.form'),
 };
 
-refs.form.addEventListener('submit', onClickBtnCreate);
+refs.form.addEventListener('submit', clickOnBtnCreatePromises);
 
-function onClickBtnCreate(e) {
+function clickOnBtnCreatePromises(e) {
   e.preventDefault();
 
   let delay = Number(e.currentTarget.delay.value);
-  const delayStep = Number(e.currentTarget.step.value);
-  const amountOfPromises = Number(e.currentTarget.amount.value);
+  const step = Number(e.currentTarget.step.value);
+  const amount = Number(e.currentTarget.amount.value);
 
-  for (let position = 1; position <= amountOfPromises; position += 1) {
-    checkStatusPromise(position, delay);
-    delay += delayStep;
+  for (let position = 1; position <= amount; position += 1) {
+    checkCreatedPromise(position, delay);
+    delay += step;
   }
 }
 
@@ -33,12 +33,12 @@ function createPromise(position, delay) {
   });
 }
 
-function checkStatusPromise(position, delay) {
+function checkCreatedPromise(position, delay) {
   createPromise(position, delay)
     .then(({ position, delay }) => {
       Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
     })
     .catch(({ position, delay }) => {
-      Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+      Notify.success(`❌ Rejected promise ${position} in ${delay}ms`);
     });
 }
